@@ -1,5 +1,5 @@
 import pygame
-from characters.player import Player
+from survivethevoid.characters.player import Player
 
 
 class Game(object):

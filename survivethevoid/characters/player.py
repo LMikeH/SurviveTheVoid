@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         self.x = x
         self.y = y
-        self.img = pygame.image.load('assets/images/testcraft.png').convert_alpha()
+        self.img = pygame.image.load('survivethevoid/assets/images/testcraft.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (50, 100))
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect()
