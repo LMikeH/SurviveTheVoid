@@ -1,5 +1,6 @@
 import pygame
 from survivethevoid.characters.player import Player
+from survivethevoid.environment.asteroids import Asteroid
 
 
 class Game(object):
@@ -18,6 +19,8 @@ class Game(object):
         self.projectiles = pygame.sprite.Group()
         self.asteroids = pygame.sprite.Group()
         self.hero = Player(screen, 200, 200, 30)
+        self.one_asteroid = Asteroid(screen, 0, 0, [.1,.1,.1], 50)
+        self.asteroids.add(self.one_asteroid)
         self.characters.add(self.hero)
 
     def update(self, keys):
@@ -33,6 +36,8 @@ class Game(object):
 
         """
         self.hero.update(keys)
+        self.asteroids.update()
+        self.collision_check()
 
     def draw(self):
         """
@@ -43,6 +48,13 @@ class Game(object):
 
         """
         self.characters.draw(self.screen)
+        self.asteroids.draw(self.screen)
+
+    def collision_check(self):
+        col = pygame.sprite.spritecollide(self.hero, self.asteroids, False, pygame.sprite.collide_mask)
+
+        if col != []:
+            self.hero.kill()
 
 def main():
     """

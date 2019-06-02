@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite):
         """
         super(Player, self).__init__()
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
-        self.speed = [0, 0, 0]
+        self.v = [0, 0, 0]
         self.angle = angle
         self.screen = screen
         self.x = x
@@ -53,6 +53,8 @@ class Player(pygame.sprite.Sprite):
         # floating point precision limitations.
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+        self.rect = self.rect.inflate(-100, -50)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def controls(self, key_state):
         """
@@ -70,19 +72,19 @@ class Player(pygame.sprite.Sprite):
 
         # Cartesian positions
         if key_state[pygame.K_LEFT]:
-            self.speed[0] -= .01
+            self.v[0] -= .01
         elif key_state[pygame.K_RIGHT]:
-            self.speed[0] += .01
+            self.v[0] += .01
         if key_state[pygame.K_UP]:
-            self.speed[1] -= .01
+            self.v[1] -= .01
         elif key_state[pygame.K_DOWN]:
-            self.speed[1] += .01
+            self.v[1] += .01
 
         # Angles
         if key_state[pygame.K_a]:
-            self.speed[2] -= .01
+            self.v[2] -= .01
         elif key_state[pygame.K_d]:
-            self.speed[2] += .01
+            self.v[2] += .01
 
     def update(self, key_state):
         """
@@ -98,11 +100,11 @@ class Player(pygame.sprite.Sprite):
 
         """
         self.controls(key_state)
-        self.rotate(self.speed[2])
+        self.rotate(self.v[2])
 
         # True floating point positions.
-        self.x += self.speed[0]
-        self.y += self.speed[1]
+        self.x += self.v[0]
+        self.y += self.v[1]
 
         # The new center position is rounded because pygame can only take integers as positions.
         self.rect.center = (round(self.x), round(self.y))
