@@ -61,6 +61,18 @@ def main():
     This is the main loop.
 
     """
+
+
+    """
+    Alvin's First Task:
+    -------------------
+    
+    a.) Make game full screen.
+    
+    b.) Make camera follow rocket.
+    
+    """
+
     pygame.init()
     screen = pygame.display.set_mode((1000, 1000))
     done = False

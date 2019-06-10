@@ -26,8 +26,6 @@ class Asteroid(pygame.sprite.Sprite):
         # floating point precision limitations.
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
-        self.rect = self.rect.inflate(-30, -30)
-
 
     def update(self, *args):
         self.rotate(self.v[2])
@@ -38,7 +36,6 @@ class Asteroid(pygame.sprite.Sprite):
 
         # The new center position is rounded because pygame can only take integers as positions.
         self.rect.center = (round(self.x), round(self.y))
-
 
     def draw(self):
         self.screen.blit(self.image, self.rect)

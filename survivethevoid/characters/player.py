@@ -1,5 +1,4 @@
 import pygame
-from characters._base_character import _BaseCharacter
 
 
 class Player(pygame.sprite.Sprite):
@@ -53,7 +52,6 @@ class Player(pygame.sprite.Sprite):
         # floating point precision limitations.
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
-        self.rect = self.rect.inflate(-100, -50)
         self.mask = pygame.mask.from_surface(self.image)
 
     def controls(self, key_state):
