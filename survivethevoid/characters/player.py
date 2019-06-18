@@ -25,7 +25,8 @@ class Player(pygame.sprite.Sprite):
         """
         super(Player, self).__init__()
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
-        self.v = [0, 0, 0]
+        self.v = [0, 0]
+        self.omega = 0
         self.angle = angle
         self.screen = screen
         self.x = x
@@ -80,9 +81,9 @@ class Player(pygame.sprite.Sprite):
 
         # Angles
         if key_state[pygame.K_a]:
-            self.v[2] -= .01
+            self.omega -= .01
         elif key_state[pygame.K_d]:
-            self.v[2] += .01
+            self.omega += .01
 
     def update(self, key_state):
         """
@@ -98,7 +99,7 @@ class Player(pygame.sprite.Sprite):
 
         """
         self.controls(key_state)
-        self.rotate(self.v[2])
+        self.rotate(self.omega)
 
         # True floating point positions.
         self.x += self.v[0]

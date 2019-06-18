@@ -1,6 +1,7 @@
 import pygame
 from survivethevoid.characters.player import Player
 from survivethevoid.environment.asteroids import Asteroid
+# from survivethevoid.environment.Camera import Camera
 
 
 class Game(object):
@@ -22,6 +23,7 @@ class Game(object):
         self.one_asteroid = Asteroid(screen, 0, 0, [.1,.1,.1], 50)
         self.asteroids.add(self.one_asteroid)
         self.characters.add(self.hero)
+        # self.camera = Camera(self.screen.width, self.screen.height)
 
     def update(self, keys):
         """
@@ -68,17 +70,24 @@ def main():
     -------------------
     
     a.) Make game full screen.
+        -commit and push code to github.
+        -put in pull request.
     
     b.) Make camera follow rocket.
+        - make new branch
+        - implement
+        - commit
+        - pull request
     
     """
 
     pygame.init()
-    screen = pygame.display.set_mode((1000, 1000))
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     done = False
     game = Game(screen)
     background = pygame.Surface(screen.get_size())
     background.fill((0, 0, 0))
+    pygame.display.update()
 
     while not done:
         for event in pygame.event.get():
