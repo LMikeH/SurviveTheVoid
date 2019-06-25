@@ -6,7 +6,8 @@ setup(
     packages=['survivethevoid',
               'survivethevoid.assets',
               'survivethevoid.characters',
-              'survivethevoid.environment'],
+              'survivethevoid.environment',
+              'survivethevoid.utils'],
     entry_points={
         'console_scripts': [
             'survivethevoid = survivethevoid.__main__:main'

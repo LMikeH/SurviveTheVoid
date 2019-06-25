@@ -1,5 +1,6 @@
 import pygame
-
+import numpy as np
+from survivethevoid.utils.math_func import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen, x, y, angle):
@@ -25,15 +26,15 @@ class Player(pygame.sprite.Sprite):
         """
         super(Player, self).__init__()
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
-        self.v = [0, 0]
+        self.v = np.array([0.0, 0.0])
         self.omega = 0
-        self.angle = angle
+        self.angle = angle-90
         self.screen = screen
         self.x = x
         self.y = y
         self.img = pygame.image.load('survivethevoid/assets/images/testcraft.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (50, 100))
-        self.image = pygame.transform.rotate(self.img, self.angle)
+        self.image = pygame.transform.rotate(self.img, self.angle-90)  # Pygame takes angle as degrees, while numpy as radians
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
@@ -68,27 +69,27 @@ class Player(pygame.sprite.Sprite):
         -------
 
         """
-
+        self.a = np.array([0.0, 0.0])
         # Cartesian positions
-        if key_state[pygame.K_LEFT]:
-            self.v[0] -= .01
-        elif key_state[pygame.K_RIGHT]:
-            self.v[0] += .01
-        if key_state[pygame.K_UP]:
-            self.v[1] -= .01
-        elif key_state[pygame.K_DOWN]:
-            self.v[1] += .01
+        if key_state[pygame.K_a]:
+            self.a[0] = .01
+        elif key_state[pygame.K_d]:
+            self.a[0] = -.01
+        if key_state[pygame.K_w]:
+            self.a[1] = .01
+        elif key_state[pygame.K_s]:
+            self.a[1] = -.01
 
         # Angles
-        if key_state[pygame.K_a]:
-            self.omega -= .01
-        elif key_state[pygame.K_d]:
+        if key_state[pygame.K_q]:
             self.omega += .01
+        elif key_state[pygame.K_e]:
+            self.omega -= .01
 
     def update(self, key_state):
         """
         This function updates teh player object.
-
+. m
         Parameters
         ----------
         key_state: pygame keystate enum object
@@ -100,9 +101,12 @@ class Player(pygame.sprite.Sprite):
         """
         self.controls(key_state)
         self.rotate(self.omega)
-
+        new_a = np.dot(R(-self.angle), -self.a)
+        print(new_a, self.angle)
+        # self.v += np.array([self.a[0]*np.sin(self.angle*np.pi/180)*-1, self.a[1]*np.cos(self.angle*np.pi/180)*-1])
+        self.v += new_a
         # True floating point positions.
-        self.x += self.v[0]
+        self.x += self.v[0]  # s1 = s0 + dels, dels = v
         self.y += self.v[1]
 
         # The new center position is rounded because pygame can only take integers as positions.
@@ -114,7 +118,7 @@ class Player(pygame.sprite.Sprite):
         Draws player object
 
         Returns
-        -------
+        ------jl-
 
         """
         self.screen.blit(self.image, self.rect)
