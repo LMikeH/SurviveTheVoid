@@ -40,7 +40,7 @@ class Player(pygame.sprite.Sprite):
 
     def rotate(self, d_ang):
         """
-        This funtion changes the angle by a small amount for the update
+        This function changes the angle by a small amount for the update
 
         Parameters
         ----------

@@ -1,7 +1,7 @@
 import pygame
 from survivethevoid.utils.__main__ import *
 
-class Projectile(object):
+class Projectile(pygame.sprite.Sprite):
     def __init__(self, x, y, radius, color, screen):
         self.screen = screen
         self.x = x

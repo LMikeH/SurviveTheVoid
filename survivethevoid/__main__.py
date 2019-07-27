@@ -58,29 +58,12 @@ class Game(object):
         if col != []:
             self.hero.kill()
 
+
 def main():
     """
     This is the main loop.
 
     """
-
-
-    """
-    Alvin's First Task:
-    -------------------
-    
-    a.) Make game full screen.
-        -commit and push code to github.
-        -put in pull request.
-    
-    b.) Make camera follow rocket.
-        - make new branch
-        - implement
-        - commit
-        - pull request
-    
-    """
-
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     done = False
