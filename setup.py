@@ -1,13 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="Survive The Void",
     version='0.1',
-    packages=['survivethevoid',
-              'survivethevoid.assets',
-              'survivethevoid.characters',
-              'survivethevoid.environment',
-              'survivethevoid.utils'],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'survivethevoid = survivethevoid.__main__:main'
