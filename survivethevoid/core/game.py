@@ -44,7 +44,7 @@ class Game(object):
         self.characters = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.asteroids = pygame.sprite.Group()
-        self.hero = Player(self.screen, 200, 200, 0)
+        self.hero = Player(self.screen, pygame.display.Info().current_w/2, pygame.display.Info().current_h/2, 0)
         self.one_asteroid = Asteroid(self.screen, 0, 0, [.1,.1,.1], 50)
         self.asteroids.add(self.one_asteroid)
         self.characters.add(self.hero)

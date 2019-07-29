@@ -112,7 +112,6 @@ class Player(pygame.sprite.Sprite):
         # The new center position is rounded because pygame can only take integers as positions.
         self.rect.center = (round(self.x), round(self.y))
 
-
     def draw(self):
         """
         Draws player object
