@@ -1,0 +1,9 @@
+
+objects:
+  asteroids:
+    asteroid_1:
+      location: [300, 300]
+    asteroid_2:
+      location: [500, 300]
+    asteroid_3:
+      location: [300, 600]

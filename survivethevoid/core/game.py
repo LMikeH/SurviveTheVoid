@@ -1,6 +1,7 @@
 import pygame
 from survivethevoid.characters.player import Player
 from survivethevoid.environment.asteroids import Asteroid
+# from survivethevoid.core.world import World
 import time
 import random
 # from survivethevoid.environment.Camera import Camera
@@ -45,9 +46,11 @@ class Game(object):
         self.projectiles = pygame.sprite.Group()
         self.asteroids = pygame.sprite.Group()
         self.hero = Player(self.screen, pygame.display.Info().current_w/2, pygame.display.Info().current_h/2, 0)
-        self.one_asteroid = Asteroid(self.screen, 0, 0, [.1,.1,.1], 50)
-        self.asteroids.add(self.one_asteroid)
+        self.one_asteroid = Asteroid(self.screen, 0, 0, [.1, .1, .1], 50)
+        self.two_asteroid = Asteroid(self.screen, 600, 300, [-.01, -.1, -.1], 50)
+        self.asteroids.add([self.one_asteroid, self.two_asteroid])
         self.characters.add(self.hero)
+        self.characters.spritedict[self.hero] = "I'm the hero!"
 
     def run(self):
         """
@@ -97,7 +100,10 @@ class Game(object):
         col = pygame.sprite.spritecollide(self.hero, self.asteroids, False, pygame.sprite.collide_mask)
 
         if col != []:
+            print(self.characters.spritedict)
             self.hero.kill()
+
+            print(self.characters.spritedict)
 
     def handle_events(self):
         for event in pygame.event.get():

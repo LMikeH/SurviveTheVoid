@@ -102,7 +102,6 @@ class Player(pygame.sprite.Sprite):
         self.controls(key_state)
         self.rotate(self.omega)
         new_a = np.dot(R(-self.angle), -self.a)
-        print(new_a, self.angle)
         # self.v += np.array([self.a[0]*np.sin(self.angle*np.pi/180)*-1, self.a[1]*np.cos(self.angle*np.pi/180)*-1])
         self.v += new_a
         # True floating point positions.
