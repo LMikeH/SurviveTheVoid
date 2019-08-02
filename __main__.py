@@ -5,7 +5,7 @@ from survivethevoid.core.game import Game
 
 def main():
     game = Game()
-    game.start()
+    game.start_level()
     game.run()
 
 

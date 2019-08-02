@@ -1,8 +1,10 @@
 import pygame
 from survivethevoid.characters.player import Player
 from survivethevoid.environment.asteroids import Asteroid
+from survivethevoid.core.world import World
 # from survivethevoid.core.world import World
 import time
+import numpy as np
 import random
 # from survivethevoid.environment.Camera import Camera
 
@@ -25,7 +27,6 @@ class Game(object):
         self.time = time.time()
         self.clock = 0
         self.ticks = 0
-        self.camera = [0, 0]
 
         # Setup PyGame
         pygame.init()
@@ -37,7 +38,28 @@ class Game(object):
         self.background.fill((0, 0, 0))
         pygame.display.update()
 
-    def start(self):
+        # Setup World
+        self.world = World(10000, 10000, self.screen, self.screen.get_width()*3)
+
+    def check_world_objects(self):
+        start_objects = self.world.check_influence()
+        for obj in start_objects:
+            if obj == 'player':
+                self.player = Player(obj, self.screen, self.world.objects[obj]['location'])
+                self.characters.add(self.player)
+                self.world.camera.player = self.player
+                self.world.objects[obj]['object'] = self.player
+            elif 'asteroid' in obj:
+                asteroid = Asteroid(obj, self.screen,
+                                    self.world.objects[obj]['location'],
+                                    np.random.randint(50, 200),
+                                    .2 * np.random.random(3) - .1
+                                    )
+                self.world.objects[obj]['object'] = asteroid
+                self.asteroids.add(asteroid)
+        self.world.check_camera([self.characters, self.projectiles, self.asteroids], self.camera_group)
+
+    def start_level(self):
         """
         Create
         """
@@ -45,12 +67,8 @@ class Game(object):
         self.characters = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.asteroids = pygame.sprite.Group()
-        self.hero = Player(self.screen, pygame.display.Info().current_w/2, pygame.display.Info().current_h/2, 0)
-        self.one_asteroid = Asteroid(self.screen, 0, 0, [.1, .1, .1], 50)
-        self.two_asteroid = Asteroid(self.screen, 600, 300, [-.01, -.1, -.1], 50)
-        self.asteroids.add([self.one_asteroid, self.two_asteroid])
-        self.characters.add(self.hero)
-        self.characters.spritedict[self.hero] = "I'm the hero!"
+        self.camera_group = pygame.sprite.Group()
+        self.check_world_objects()
 
     def run(self):
         """
@@ -65,6 +83,7 @@ class Game(object):
         while not done:
             self.handle_events()
             self.update(pygame.key.get_pressed())
+            print(self.camera_group)
             self.draw()
             pygame.display.flip()
 
@@ -80,8 +99,13 @@ class Game(object):
         -------
 
         """
-        self.hero.update(keys)
+        print(self.player.x, self.player.y)
+        self.camera_group.empty()
+        self.characters.update(keys)
+        self.world.update()
+        self.check_world_objects()
         self.asteroids.update()
+        self.projectiles.update()
         self.collision_check()
 
     def draw(self):
@@ -93,17 +117,13 @@ class Game(object):
 
         """
         self.screen.blit(self.background, (0, 0))
-        self.characters.draw(self.screen)
-        self.asteroids.draw(self.screen)
+        self.camera_group.draw(self.screen)
 
     def collision_check(self):
-        col = pygame.sprite.spritecollide(self.hero, self.asteroids, False, pygame.sprite.collide_mask)
-
+        col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
         if col != []:
-            print(self.characters.spritedict)
-            self.hero.kill()
-
-            print(self.characters.spritedict)
+            for obj in col:
+                del self.world.objects[obj.name]
 
     def handle_events(self):
         for event in pygame.event.get():

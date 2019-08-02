@@ -3,7 +3,7 @@ import numpy as np
 from survivethevoid.utils.math_func import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, screen, x, y, angle):
+    def __init__(self, name, screen, location):
         """
         This is the player class. It handles the assets for the player. It also controls the keys and functionality
         of the player.
@@ -25,18 +25,19 @@ class Player(pygame.sprite.Sprite):
 
         """
         super(Player, self).__init__()
+        self.name = name
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
         self.v = np.array([0.0, 0.0])
         self.omega = 0
-        self.angle = angle-90
+        self.angle = location[2]-90
         self.screen = screen
-        self.x = x
-        self.y = y
+        self.x = location[0]
+        self.y = location[1]
         self.img = pygame.image.load('survivethevoid/assets/images/testcraft.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (50, 100))
         self.image = pygame.transform.rotate(self.img, self.angle-90)  # Pygame takes angle as degrees, while numpy as radians
         self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
+        self.rect.center = (screen.get_width()/2, screen.get_height()/2)
 
     def rotate(self, d_ang):
         """
@@ -109,7 +110,7 @@ class Player(pygame.sprite.Sprite):
         self.y += self.v[1]
 
         # The new center position is rounded because pygame can only take integers as positions.
-        self.rect.center = (round(self.x), round(self.y))
+        # self.rect.center = (round(self.x), round(self.y))
 
     def draw(self):
         """
