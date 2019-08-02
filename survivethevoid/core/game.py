@@ -83,7 +83,6 @@ class Game(object):
         while not done:
             self.handle_events()
             self.update(pygame.key.get_pressed())
-            print(self.camera_group)
             self.draw()
             pygame.display.flip()
 
@@ -99,11 +98,11 @@ class Game(object):
         -------
 
         """
-        print(self.player.x, self.player.y)
         self.camera_group.empty()
         self.characters.update(keys)
         self.world.update()
         self.check_world_objects()
+        print(self.camera_group)
         self.asteroids.update()
         self.projectiles.update()
         self.collision_check()

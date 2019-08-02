@@ -73,13 +73,13 @@ class Player(pygame.sprite.Sprite):
         self.a = np.array([0.0, 0.0])
         # Cartesian positions
         if key_state[pygame.K_a]:
-            self.a[0] = .01
-        elif key_state[pygame.K_d]:
             self.a[0] = -.01
+        elif key_state[pygame.K_d]:
+            self.a[0] = .01
         if key_state[pygame.K_w]:
-            self.a[1] = .01
-        elif key_state[pygame.K_s]:
             self.a[1] = -.01
+        elif key_state[pygame.K_s]:
+            self.a[1] = .01
 
         # Angles
         if key_state[pygame.K_q]:
@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, key_state):
         """
         This function updates teh player object.
-. m
+
         Parameters
         ----------
         key_state: pygame keystate enum object

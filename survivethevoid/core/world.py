@@ -37,7 +37,7 @@ class World():
     def check_camera(self, groups, camera_group):
         for group in groups:
             for sprite in group:
-                if self.camera.check_contains(sprite):
+                if self.camera.check_contains(sprite) is True:
                     camera_group.add(sprite)
 
     def update(self):
