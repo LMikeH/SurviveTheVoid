@@ -19,7 +19,7 @@ class Camera:
               or obj.y - obj.rect.height/2 >= self.y + self.height/2):
             return False
         else:
-            obj.rect.center = (self.x - obj.x + self.width/2, self.y - obj.y + self.height/2)
+            obj.rect.center = (obj.x + self.width/2 - self.x , self.y - obj.y + self.height/2)
             return True
 
     def update(self):

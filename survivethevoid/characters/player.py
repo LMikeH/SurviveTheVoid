@@ -77,9 +77,9 @@ class Player(pygame.sprite.Sprite):
         elif key_state[pygame.K_d]:
             self.a[0] = .01
         if key_state[pygame.K_w]:
-            self.a[1] = -.01
-        elif key_state[pygame.K_s]:
             self.a[1] = .01
+        elif key_state[pygame.K_s]:
+            self.a[1] = -.01
 
         # Angles
         if key_state[pygame.K_q]:
@@ -102,7 +102,7 @@ class Player(pygame.sprite.Sprite):
         """
         self.controls(key_state)
         self.rotate(self.omega)
-        new_a = np.dot(R(-self.angle), -self.a)
+        new_a = np.dot(R(self.angle), self.a)
         # self.v += np.array([self.a[0]*np.sin(self.angle*np.pi/180)*-1, self.a[1]*np.cos(self.angle*np.pi/180)*-1])
         self.v += new_a
         # True floating point positions.

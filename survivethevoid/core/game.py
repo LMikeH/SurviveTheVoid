@@ -102,7 +102,6 @@ class Game(object):
         self.characters.update(keys)
         self.world.update()
         self.check_world_objects()
-        print(self.camera_group)
         self.asteroids.update()
         self.projectiles.update()
         self.collision_check()
@@ -115,8 +114,13 @@ class Game(object):
         -------
 
         """
+        myfont = pygame.font.SysFont('monospace', 15)
+        label1 = myfont.render("Coordinates: {} {} ".format('%.2f' % self.player.x, '%.2f' % self.player.y), 1, (255, 0, 0))
+        label2 = myfont.render("Velocity:    {} {}".format('%.2f' % self.player.v[0], '%.2f' % self.player.v[1]), 1, (255, 0, 0))
         self.screen.blit(self.background, (0, 0))
         self.camera_group.draw(self.screen)
+        self.screen.blit(label1, (50, 50))
+        self.screen.blit(label2, (50, 65))
 
     def collision_check(self):
         col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
