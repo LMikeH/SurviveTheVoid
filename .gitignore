@@ -5,6 +5,7 @@ __pycache__/
 
 # Project Specific
 LearningVectors/
+survive_venv/
 
 # C extensions
 *.so

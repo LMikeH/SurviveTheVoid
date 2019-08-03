@@ -18,5 +18,5 @@ class Bullet(pygame.sprite.Sprite):
 
     
     def update(self, key_state):
-        if key_state[pygame.K_SPACE]
+
 
