@@ -1,4 +1,6 @@
 from setuptools import setup, find_packages
+# from cx_Freeze import setup, Executable
+import sys
 
 setup(
     name="Survive The Void",
@@ -11,8 +13,8 @@ setup(
         ]
     },
     install_requires=['numpy',
-                      'scipy',
-                      'pygame >= 1.9.1',
+                      'pygame',
                       'pyyaml'
-                      ]
+                      ],
+
 )

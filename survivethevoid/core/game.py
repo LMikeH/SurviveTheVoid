@@ -6,6 +6,7 @@ from survivethevoid.core.world import World
 import time
 import numpy as np
 import random
+import sys
 # from survivethevoid.environment.Camera import Camera
 
 # Setup
@@ -135,4 +136,4 @@ class Game(object):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
-                    return
+                    sys.exit()

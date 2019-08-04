@@ -17,7 +17,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.angle = 0
         self.size = size
         self.img = pygame.image.load(
-            'survivethevoid/assets/images/asteroid_2.png').convert_alpha()
+            'assets/images/asteroid_2.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (self.size, self.size))
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect()

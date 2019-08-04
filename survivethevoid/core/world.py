@@ -1,6 +1,5 @@
 import pygame
 import yaml
-from scipy.spatial.distance import euclidean
 from survivethevoid.core.camera import Camera
 import numpy as np
 
@@ -10,7 +9,7 @@ class World():
         self.height = height
         self.width = width
         self.influence_radius = influence_radius
-        file = open('survivethevoid/assets/levels/example_level.yaml')
+        file = open('assets/levels/example_level.yaml')
         self.inpdict = yaml.safe_load(file)
         file.close()
         self.objects = self.inpdict['objects']
@@ -30,7 +29,7 @@ class World():
         a = np.array(self.camera.location[:2])
         for obj in self.objects.keys():
             b = np.array(self.objects[obj]['location'][:2])
-            if euclidean(a, b) <= self.influence_radius and self.objects[obj]['object'] is None:
+            if np.linalg.norm(a - b) <= self.influence_radius and self.objects[obj]['object'] is None:
                 init_list.append(obj)
         return init_list
 
