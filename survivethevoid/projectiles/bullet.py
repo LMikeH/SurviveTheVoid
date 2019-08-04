@@ -1,11 +1,22 @@
 import pygame
-import numpy as np
 from survivethevoid.utils.math_func import *
-import time
 
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,screen, x, y, angle, v):
+        """
+        This class is a basic bullet.
+
+        Parameters
+        ----------
+        screen: pygame display object
+
+        x: float
+        y: float
+
+        angle: float
+        v: float
+        """
         super(Bullet, self).__init__()
         self.screen = screen
         self.x = x
@@ -19,7 +30,7 @@ class Bullet(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.speed = 5
+        self.speed = 10
         radians = np.pi*(angle+90)/180.0
         self.v = np.array([self.speed*np.cos(radians), self.speed*np.sin(radians)]) + v
         self.start = pygame.time.get_ticks()

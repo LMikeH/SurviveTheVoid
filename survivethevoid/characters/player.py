@@ -1,5 +1,4 @@
 import pygame
-import numpy as np
 from survivethevoid.utils.math_func import *
 from survivethevoid.projectiles.bullet import Bullet
 
@@ -28,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         """
         super(Player, self).__init__()
         self.name = name
+
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
         self.v = np.array([0.0, 0.0])
         self.omega = 0
@@ -35,14 +35,21 @@ class Player(pygame.sprite.Sprite):
         self.screen = screen
         self.x = location[0]
         self.y = location[1]
+
+        # load image
         self.img = pygame.image.load('assets/images/testcraft.png').convert()
         self.img = pygame.transform.scale(self.img, (50, 100))
         self.image = pygame.transform.rotate(self.img, self.angle)  # Pygame takes angle as degrees, while numpy as radians
+
+        # Setup rectangle and mask
         self.rect = self.image.get_rect()
         self.rect.center = (screen.get_width()/2, screen.get_height()/2)
         self.last_shot = pygame.time.get_ticks()
         self.collision_dmg = 50
         self.health = 100
+
+        self.mask = pygame.mask.from_surface(self.image)
+
 
     def rotate(self, d_ang):
         """
@@ -63,6 +70,15 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
     def shoot_bullet(self):
+        """
+        depending on fire rate, instantiates bullet object to be added to projectiles
+        group.
+
+        Returns
+        -------
+        Bullet object.
+
+        """
         if pygame.time.get_ticks() - self.last_shot > 60*2:
             self.last_shot = pygame.time.get_ticks()
             return Bullet(self.screen, self.x, self.y, self.angle, self.v[:2])
@@ -85,19 +101,19 @@ class Player(pygame.sprite.Sprite):
         self.a = np.array([0.0, 0.0])
         # Cartesian positions
         if key_state[pygame.K_a]:
-            self.a[0] = -.01
+            self.a[0] = -.02
         elif key_state[pygame.K_d]:
-            self.a[0] = .01
+            self.a[0] = .02
         if key_state[pygame.K_w]:
-            self.a[1] = .01
+            self.a[1] = .02
         elif key_state[pygame.K_s]:
-            self.a[1] = -.01
+            self.a[1] = -.02
 
         # Angles
         if key_state[pygame.K_q]:
-            self.omega += .01
+            self.omega += .02
         elif key_state[pygame.K_e]:
-            self.omega -= .01
+            self.omega -= .02
 
         if key_state[pygame.K_SPACE]:
             return self.shoot_bullet()
