@@ -130,10 +130,11 @@ class Game(object):
         self.screen.blit(label3, (50, 75))
 
     def collision_check(self):
-        col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
-        if col != []:
-            for obj in col:
-                del self.world.objects[obj.name]
+        col = pygame.sprite.groupcollide(self.characters, self.asteroids, False, False, pygame.sprite.collide_mask)
+        for obj1 in col:
+            for obj2 in col[obj1]:
+                obj1.collision(obj2)
+                obj2.collision(obj1)
 
     def handle_events(self):
         for event in pygame.event.get():
