@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Project Specific
+LearningVectors/
+survive-venv/
+
 # C extensions
 *.so
 

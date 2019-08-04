@@ -1,0 +1,14 @@
+
+objects:
+  player:
+    location: [5000, 5000, 0]
+    object:
+  asteroid_1:
+    location: [4800, 4800, 0]
+    object:
+  asteroid_2:
+    location: [5200, 5200, 0]
+    object:
+  asteroid_3:
+    location: [3000, 6000, 0]
+    object:
