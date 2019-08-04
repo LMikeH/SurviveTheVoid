@@ -4,6 +4,19 @@ from survivethevoid.utils.math_func import *
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self,screen, x, y, angle, v):
+        """
+        This class is a basic bullet.
+
+        Parameters
+        ----------
+        screen: pygame display object
+
+        x: float
+        y: float
+
+        angle: float
+        v: float
+        """
         super(Bullet, self).__init__()
         self.screen = screen
         self.x = x

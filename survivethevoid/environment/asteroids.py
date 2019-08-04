@@ -6,6 +6,26 @@ class Asteroid(pygame.sprite.Sprite):
                  location,
                  size,
                  v):
+        """
+
+
+        Parameters
+        ----------
+        name: string
+        used to keep track in world objects dictionary
+
+        screen: pygame display object
+
+        location: list/ndarray
+        xy coordinates
+
+        size: int
+        size of asteroid in pixels m x m
+
+        v: ndarray/list
+        initial velocity of asteroid
+
+        """
         super(Asteroid, self).__init__()
         self.name = name
         self.screen = screen
