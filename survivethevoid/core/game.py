@@ -26,7 +26,7 @@ class Game(object):
         """
         # Setup Variables
         self.time = time.time()
-        self.clock = 0
+        self.clock = pygame.time.Clock()
         self.ticks = 0
 
         # Setup PyGame
@@ -58,7 +58,10 @@ class Game(object):
                                     )
                 self.world.objects[obj]['object'] = asteroid
                 self.asteroids.add(asteroid)
-        self.world.check_camera([self.characters, self.projectiles, self.asteroids], self.camera_group)
+        self.world.check_camera([self.characters,
+                                 self.projectiles,
+                                 self.asteroids],
+                                self.camera_group)
 
     def start_level(self):
         """
@@ -100,7 +103,7 @@ class Game(object):
 
         """
         self.camera_group.empty()
-        self.characters.update(keys)
+        self.characters.update(keys, self.projectiles)
         self.world.update()
         self.check_world_objects()
         self.asteroids.update()
@@ -118,10 +121,13 @@ class Game(object):
         myfont = pygame.font.SysFont('monospace', 15)
         label1 = myfont.render("Coordinates: {} {} ".format('%.2f' % self.player.x, '%.2f' % self.player.y), 1, (255, 0, 0))
         label2 = myfont.render("Velocity:    {} {}".format('%.2f' % self.player.v[0], '%.2f' % self.player.v[1]), 1, (255, 0, 0))
+        self.clock.tick(100)
+        label3 = myfont.render("FPS: " + str(self.clock.get_fps()),  1, (255, 0, 0))
         self.screen.blit(self.background, (0, 0))
         self.camera_group.draw(self.screen)
         self.screen.blit(label1, (50, 50))
         self.screen.blit(label2, (50, 65))
+        self.screen.blit(label3, (50, 75))
 
     def collision_check(self):
         col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)

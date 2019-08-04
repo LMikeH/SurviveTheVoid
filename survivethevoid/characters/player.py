@@ -1,6 +1,8 @@
 import pygame
 import numpy as np
 from survivethevoid.utils.math_func import *
+from survivethevoid.projectiles.bullet import Bullet
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, name, screen, location):
@@ -29,15 +31,16 @@ class Player(pygame.sprite.Sprite):
         # Speed is vector with dx/dt, dy/dt, and d-angle/dt
         self.v = np.array([0.0, 0.0])
         self.omega = 0
-        self.angle = location[2]-90
+        self.angle = location[2]
         self.screen = screen
         self.x = location[0]
         self.y = location[1]
         self.img = pygame.image.load('assets/images/testcraft.png').convert()
         self.img = pygame.transform.scale(self.img, (50, 100))
-        self.image = pygame.transform.rotate(self.img, self.angle-90)  # Pygame takes angle as degrees, while numpy as radians
+        self.image = pygame.transform.rotate(self.img, self.angle)  # Pygame takes angle as degrees, while numpy as radians
         self.rect = self.image.get_rect()
         self.rect.center = (screen.get_width()/2, screen.get_height()/2)
+        self.last_shot = pygame.time.get_ticks()
 
     def rotate(self, d_ang):
         """
@@ -57,9 +60,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
         self.mask = pygame.mask.from_surface(self.image)
 
-    # def shoot_bullet(self):
-
-
+    def shoot_bullet(self):
+        if pygame.time.get_ticks() - self.last_shot > 60*2:
+            self.last_shot = pygame.time.get_ticks()
+            return Bullet(self.screen, self.x, self.y, self.angle, self.v[:2])
+        else:
+            return
 
     def controls(self, key_state):
         """
@@ -91,7 +97,13 @@ class Player(pygame.sprite.Sprite):
         elif key_state[pygame.K_e]:
             self.omega -= .01
 
-    def update(self, key_state):
+        if key_state[pygame.K_SPACE]:
+            return self.shoot_bullet()
+        else:
+            return
+
+
+    def update(self, key_state, projectiles):
         """
         This function updates teh player object.
 
@@ -104,7 +116,11 @@ class Player(pygame.sprite.Sprite):
         -------
 
         """
-        self.controls(key_state)
+        # Check for shooting, if shot fired, add to projectiles group.
+        shot = self.controls(key_state)
+        if shot is not None:
+            projectiles.add(shot)
+
         self.rotate(self.omega)
         new_a = np.dot(R(self.angle), self.a)
         # self.v += np.array([self.a[0]*np.sin(self.angle*np.pi/180)*-1, self.a[1]*np.cos(self.angle*np.pi/180)*-1])
