@@ -1,6 +1,3 @@
-import pygame
-from survivethevoid.characters.player import Player
-from survivethevoid.environment.asteroids import Asteroid
 from survivethevoid.core.game import Game
 
 def main():

@@ -43,6 +43,13 @@ class Game(object):
         self.world = World(10000, 10000, self.screen, self.screen.get_width()*3)
 
     def check_world_objects(self):
+        """
+        This method checks world object dictionary to see if characters and
+        environment props are within sphere of influence to initialize objects.
+
+        Also checks camera.
+
+        """
         start_objects = self.world.check_influence()
         for obj in start_objects:
             if obj == 'player':
@@ -54,7 +61,7 @@ class Game(object):
                 asteroid = Asteroid(obj, self.screen,
                                     self.world.objects[obj]['location'],
                                     np.random.randint(50, 200),
-                                    .2 * np.random.random(3) - .1
+                                    .4 * np.random.random(3) - .2
                                     )
                 self.world.objects[obj]['object'] = asteroid
                 self.asteroids.add(asteroid)
@@ -65,9 +72,10 @@ class Game(object):
 
     def start_level(self):
         """
-        Create
+        Initialize groups, add objects within player's influence to
+        the game.
+
         """
-        # Setup Objects
         self.characters = pygame.sprite.Group()
         self.projectiles = pygame.sprite.Group()
         self.asteroids = pygame.sprite.Group()
@@ -79,10 +87,6 @@ class Game(object):
         This is the game loop
 
         """
-        # Time
-        clock = pygame.time.Clock()
-
-        # Game Loop
         done = False
         while not done:
             self.handle_events()
@@ -121,21 +125,31 @@ class Game(object):
         myfont = pygame.font.SysFont('monospace', 15)
         label1 = myfont.render("Coordinates: {} {} ".format('%.2f' % self.player.x, '%.2f' % self.player.y), 1, (255, 0, 0))
         label2 = myfont.render("Velocity:    {} {}".format('%.2f' % self.player.v[0], '%.2f' % self.player.v[1]), 1, (255, 0, 0))
-        self.clock.tick(100)
+        self.clock.tick(60)
         label3 = myfont.render("FPS: " + str(self.clock.get_fps()),  1, (255, 0, 0))
         self.screen.blit(self.background, (0, 0))
         self.camera_group.draw(self.screen)
         self.screen.blit(label1, (50, 50))
         self.screen.blit(label2, (50, 65))
-        self.screen.blit(label3, (50, 75))
+        self.screen.blit(label3, (50, 80))
 
+    # TODO: Add collisions between asteroids, create callback function to avoid collisions with self
     def collision_check(self):
+        """
+        Checks for collisions based on mask.
+
+        """
         col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
         if col != []:
             for obj in col:
                 del self.world.objects[obj.name]
 
+    # TODO: Add Pause Capability
     def handle_events(self):
+        """
+        Currently this just quits the game upon pressing escape.
+
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True

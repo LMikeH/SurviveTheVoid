@@ -1,6 +1,4 @@
-
 import pygame
-import numpy as np
 
 
 class Asteroid(pygame.sprite.Sprite):
@@ -8,6 +6,26 @@ class Asteroid(pygame.sprite.Sprite):
                  location,
                  size,
                  v):
+        """
+
+
+        Parameters
+        ----------
+        name: string
+        used to keep track in world objects dictionary
+
+        screen: pygame display object
+
+        location: list/ndarray
+        xy coordinates
+
+        size: int
+        size of asteroid in pixels m x m
+
+        v: ndarray/list
+        initial velocity of asteroid
+
+        """
         super(Asteroid, self).__init__()
         self.name = name
         self.screen = screen
@@ -31,6 +49,7 @@ class Asteroid(pygame.sprite.Sprite):
         # floating point precision limitations.
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, *args):
         self.rotate(self.v[2])
