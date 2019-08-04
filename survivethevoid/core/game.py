@@ -139,10 +139,21 @@ class Game(object):
         Checks for collisions based on mask.
 
         """
-        col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
-        if col != []:
-            for obj in col:
-                del self.world.objects[obj.name]
+        def collide_callback(obj1, obj2):
+            if obj1 is not obj2:
+                tmp = pygame.sprite.Group()
+                tmp.add(obj2)
+                if pygame.sprite.spritecollide(obj1, tmp, False, pygame.sprite.collide_rect):
+                    return pygame.sprite.spritecollide(obj1, tmp, False, pygame.sprite.collide_mask)
+                else:
+                    return False
+            else:
+                return False
+
+        groups = [self.characters, self.projectiles, self.asteroids]
+        for g, groupi in enumerate(groups):
+            for groupj in groups[g:]:
+                pygame.sprite.groupcollide(groupi, groupj, True, True, collide_callback)
 
     # TODO: Add Pause Capability
     def handle_events(self):
