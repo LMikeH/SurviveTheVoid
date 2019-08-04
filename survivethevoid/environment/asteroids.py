@@ -1,6 +1,4 @@
-
 import pygame
-import numpy as np
 
 
 class Asteroid(pygame.sprite.Sprite):
@@ -31,6 +29,7 @@ class Asteroid(pygame.sprite.Sprite):
         # floating point precision limitations.
         self.image = pygame.transform.rotate(self.img, self.angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, *args):
         self.rotate(self.v[2])

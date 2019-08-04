@@ -1,11 +1,29 @@
-import pygame
 import yaml
 from survivethevoid.core.camera import Camera
 import numpy as np
 
 
+# TODO: Setup game saving capability
 class World():
     def __init__(self, height, width, screen, influence_radius):
+        """
+        This class loads the level and handles what gets loaded as an object
+        in the game. It also handles the camera.
+
+        Parameters
+        ----------
+        height: int
+        pixel height of the level
+
+        width: int
+        pixel width of the level
+
+        screen: pygame display object
+
+        influence_radius: float/int
+        radius objects are spawned/allowed in memory.
+
+        """
         self.height = height
         self.width = width
         self.influence_radius = influence_radius
@@ -17,14 +35,16 @@ class World():
                              screen.get_width(),
                              screen.get_height())
 
-    def get_objects(self):
-        return self.objects
-
-    def set_object_locations(self, **obj_dict):
-        for obj in obj_dict.keys():
-            self.objects[obj]['location'] = obj_dict[obj]['location']
-
     def check_influence(self):
+        """
+        Checks if character/environment object is within player's sphere
+        of influence.
+
+        Returns
+        -------
+        List of names for objects to be initialized.
+
+        """
         init_list = []
         a = np.array(self.camera.location[:2])
         for obj in self.objects.keys():
@@ -34,6 +54,19 @@ class World():
         return init_list
 
     def check_camera(self, groups, camera_group):
+        """
+        Checks to see if objects are on screen. Then passes relative screen
+        coordinates for drawing.
+
+        Parameters
+        ----------
+        groups: sprite groups
+        All sprite groups besides camera group
+
+        camera_group: sprite group
+        contains objects to be drawn.
+
+        """
         for group in groups:
             for sprite in group:
                 if self.camera.check_contains(sprite) is True:

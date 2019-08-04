@@ -1,5 +1,4 @@
 import pygame
-import numpy as np
 from survivethevoid.utils.math_func import *
 from survivethevoid.projectiles.bullet import Bullet
 
@@ -41,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (screen.get_width()/2, screen.get_height()/2)
         self.last_shot = pygame.time.get_ticks()
+        self.mask = pygame.mask.from_surface(self.image)
 
     def rotate(self, d_ang):
         """
@@ -83,19 +83,19 @@ class Player(pygame.sprite.Sprite):
         self.a = np.array([0.0, 0.0])
         # Cartesian positions
         if key_state[pygame.K_a]:
-            self.a[0] = -.01
+            self.a[0] = -.02
         elif key_state[pygame.K_d]:
-            self.a[0] = .01
+            self.a[0] = .02
         if key_state[pygame.K_w]:
-            self.a[1] = .01
+            self.a[1] = .02
         elif key_state[pygame.K_s]:
-            self.a[1] = -.01
+            self.a[1] = -.02
 
         # Angles
         if key_state[pygame.K_q]:
-            self.omega += .01
+            self.omega += .02
         elif key_state[pygame.K_e]:
-            self.omega -= .01
+            self.omega -= .02
 
         if key_state[pygame.K_SPACE]:
             return self.shoot_bullet()

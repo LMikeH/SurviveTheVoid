@@ -1,8 +1,15 @@
-import pygame
-
 
 class Camera:
     def __init__(self, location, width, height):
+        """
+        This class checks if an object is within
+
+        Parameters
+        ----------
+        location
+        width
+        height
+        """
         self.location = location
         self.x = location[0]
         self.y = location[1]

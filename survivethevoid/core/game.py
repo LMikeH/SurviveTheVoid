@@ -121,20 +121,22 @@ class Game(object):
         myfont = pygame.font.SysFont('monospace', 15)
         label1 = myfont.render("Coordinates: {} {} ".format('%.2f' % self.player.x, '%.2f' % self.player.y), 1, (255, 0, 0))
         label2 = myfont.render("Velocity:    {} {}".format('%.2f' % self.player.v[0], '%.2f' % self.player.v[1]), 1, (255, 0, 0))
-        self.clock.tick(100)
+        self.clock.tick(60)
         label3 = myfont.render("FPS: " + str(self.clock.get_fps()),  1, (255, 0, 0))
         self.screen.blit(self.background, (0, 0))
         self.camera_group.draw(self.screen)
         self.screen.blit(label1, (50, 50))
         self.screen.blit(label2, (50, 65))
-        self.screen.blit(label3, (50, 75))
+        self.screen.blit(label3, (50, 80))
 
+    # TODO: Add collisions between asteroids, create callback function to avoid collisions with self
     def collision_check(self):
         col = pygame.sprite.groupcollide(self.characters, self.asteroids, True, False, pygame.sprite.collide_mask)
         if col != []:
             for obj in col:
                 del self.world.objects[obj.name]
 
+    # TODO: Add Pause Capability
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
