@@ -35,6 +35,9 @@ class Bullet(pygame.sprite.Sprite):
         self.v = np.array([self.speed*np.cos(radians), self.speed*np.sin(radians)]) + v
         self.start = pygame.time.get_ticks()
 
+        self.collision_dmg = 5
+        self.health = 1
+
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
@@ -46,5 +49,13 @@ class Bullet(pygame.sprite.Sprite):
         if now - self.start > 60*50.0:
             self.kill()
 
+    def collision(self, collided_object):
+        """
+        Handles Collision Event
+        """
+        self.health -= collided_object.collision_dmg
+        if self.health <= 0:
+            self.death()
 
-
+    def death(self):
+        self.kill()
