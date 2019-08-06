@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.y = location[1]
 
         # load image
-        self.img = pygame.image.load('assets/images/testcraft.png').convert()
+        self.img = pygame.image.load('assets/images/testcraft.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (50, 100))
         self.image = pygame.transform.rotate(self.img, self.angle)  # Pygame takes angle as degrees, while numpy as radians
 
@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
         """
         if pygame.time.get_ticks() - self.last_shot > 60*2:
             self.last_shot = pygame.time.get_ticks()
-            return Bullet(self.screen, self.x, self.y, self.angle, self.v[:2])
+            return Bullet('player_bullet', self.screen, self.x, self.y, self.angle, self.v[:2])
         else:
             return
 
@@ -164,9 +164,10 @@ class Player(pygame.sprite.Sprite):
         """
         Handles Collision Event
         """
-        self.health -= collided_object.collision_dmg
-        if self.health <= 0:
-            self.death()
+        if 'player' not in collided_object.name:
+            self.health -= collided_object.collision_dmg
+            if self.health <= 0:
+                self.death()
 
     def death(self):
         self.kill()

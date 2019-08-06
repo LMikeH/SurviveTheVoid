@@ -3,7 +3,7 @@ from survivethevoid.utils.math_func import *
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self,screen, x, y, angle, v):
+    def __init__(self, name, screen, x, y, angle, v):
         """
         This class is a basic bullet.
 
@@ -18,15 +18,17 @@ class Bullet(pygame.sprite.Sprite):
         v: float
         """
         super(Bullet, self).__init__()
+        self.name = name
         self.screen = screen
         self.x = x
         self.y = y
         self.angle = angle
 
-        self.img = pygame.image.load('assets/images/bullet.png').convert()
+        self.img = pygame.image.load('assets/images/bullet.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (5, 10))
         self.image = pygame.transform.rotate(self.img,
                                              self.angle)  # Pygame takes angle as degrees, while numpy as radians
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -53,9 +55,11 @@ class Bullet(pygame.sprite.Sprite):
         """
         Handles Collision Event
         """
-        self.health -= collided_object.collision_dmg
-        if self.health <= 0:
-            self.death()
+
+        if collided_object.name != self.name.split('_')[0]:
+            self.health -= collided_object.collision_dmg
+            if self.health <= 0:
+                self.death()
 
     def death(self):
         self.kill()

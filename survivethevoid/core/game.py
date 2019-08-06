@@ -144,11 +144,27 @@ class Game(object):
         pygame.draw.rect(self.screen, (128, 255, 128), (350, 50, self.player.health * 2 , 30))
 
     def collision_check(self):
-        col = pygame.sprite.groupcollide(self.characters, self.asteroids, False, False, pygame.sprite.collide_mask)
-        for obj1 in col:
-            for obj2 in col[obj1]:
-                obj1.collision(obj2)
-                obj2.collision(obj1)
+        def collide_callback(obj1, obj2):
+            if obj1 is not obj2:
+                tmp = pygame.sprite.Group()
+                tmp.add(obj2)
+                if pygame.sprite.spritecollide(obj1, tmp, False, pygame.sprite.collide_rect):
+                    return pygame.sprite.spritecollide(obj1, tmp, False, pygame.sprite.collide_mask)
+                else:
+                    return False
+            else:
+                return False
+
+        groups = [self.characters, self.projectiles, self.asteroids]
+        collisions= []
+        for g, groupi in enumerate(groups):
+            for groupj in groups[g:]:
+                collisions.append(pygame.sprite.groupcollide(groupi, groupj, False, False, collide_callback))
+        for col in collisions:
+            for obj1 in col:
+                for obj2 in col[obj1]:
+                    obj1.collision(obj2)
+                    obj2.collision(obj1)
 
     # TODO: Add Pause Capability
     def handle_events(self):
