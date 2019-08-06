@@ -41,6 +41,8 @@ class Asteroid(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.mask = pygame.mask.from_surface(self.image)
+        self.collision_dmg = 50
+        self.health = 200
 
     def rotate(self, d_ang):
         self.angle += d_ang
@@ -67,3 +69,14 @@ class Asteroid(pygame.sprite.Sprite):
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
+
+    def collision(self, collided_object):
+        """
+        Handles Collision Event
+        """
+        self.health -= collided_object.collision_dmg
+        if self.health <= 0:
+            self.death()
+
+    def death(self):
+        self.kill()

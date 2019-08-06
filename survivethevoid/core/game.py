@@ -122,22 +122,28 @@ class Game(object):
         -------
 
         """
+        # Display Player Information
         myfont = pygame.font.SysFont('monospace', 15)
         label1 = myfont.render("Coordinates: {} {} ".format('%.2f' % self.player.x, '%.2f' % self.player.y), 1, (255, 0, 0))
         label2 = myfont.render("Velocity:    {} {}".format('%.2f' % self.player.v[0], '%.2f' % self.player.v[1]), 1, (255, 0, 0))
+
+        # Display Game Information
         self.clock.tick(60)
+
         label3 = myfont.render("FPS: " + str(self.clock.get_fps()),  1, (255, 0, 0))
+
+        # Draw Screen
         self.screen.blit(self.background, (0, 0))
         self.camera_group.draw(self.screen)
         self.screen.blit(label1, (50, 50))
         self.screen.blit(label2, (50, 65))
         self.screen.blit(label3, (50, 80))
 
-    # TODO: Add collisions between asteroids, create callback function to avoid collisions with self
-    def collision_check(self):
-        """
-        Checks for collisions based on mask.
+        # Display Player Stats
+        pygame.draw.rect(self.screen, (255, 0, 0), (350, 50, 200, 30))
+        pygame.draw.rect(self.screen, (128, 255, 128), (350, 50, self.player.health * 2 , 30))
 
+<<<<<<< HEAD
         """
         def collide_callback(obj1, obj2):
             if obj1 is not obj2:
@@ -154,6 +160,14 @@ class Game(object):
         for g, groupi in enumerate(groups):
             for groupj in groups[g:]:
                 pygame.sprite.groupcollide(groupi, groupj, True, True, collide_callback)
+=======
+    def collision_check(self):
+        col = pygame.sprite.groupcollide(self.characters, self.asteroids, False, False, pygame.sprite.collide_mask)
+        for obj1 in col:
+            for obj2 in col[obj1]:
+                obj1.collision(obj2)
+                obj2.collision(obj1)
+>>>>>>> a203274851e2c32f4ec80a7393309b5b8e0598c9
 
     # TODO: Add Pause Capability
     def handle_events(self):

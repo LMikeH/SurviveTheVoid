@@ -45,7 +45,11 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (screen.get_width()/2, screen.get_height()/2)
         self.last_shot = pygame.time.get_ticks()
+        self.collision_dmg = 50
+        self.health = 100
+
         self.mask = pygame.mask.from_surface(self.image)
+
 
     def rotate(self, d_ang):
         """
@@ -119,7 +123,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, key_state, projectiles):
         """
-        This function updates teh player object.
+        This function updates the player object.
 
         Parameters
         ----------
@@ -155,3 +159,14 @@ class Player(pygame.sprite.Sprite):
 
         """
         self.screen.blit(self.image, self.rect)
+
+    def collision(self, collided_object):
+        """
+        Handles Collision Event
+        """
+        self.health -= collided_object.collision_dmg
+        if self.health <= 0:
+            self.death()
+
+    def death(self):
+        self.kill()
