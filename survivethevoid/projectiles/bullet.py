@@ -55,9 +55,11 @@ class Bullet(pygame.sprite.Sprite):
         """
         Handles Collision Event
         """
-        self.health -= collided_object.collision_dmg
-        if self.health <= 0:
-            self.death()
+
+        if collided_object.name != self.name.split('_')[0]:
+            self.health -= collided_object.collision_dmg
+            if self.health <= 0:
+                self.death()
 
     def death(self):
         self.kill()
