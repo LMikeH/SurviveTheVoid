@@ -37,8 +37,9 @@ class Player(pygame.sprite.Sprite):
         self.y = location[1]
 
         # load image
-        self.img = pygame.image.load('assets/images/testcraft.png').convert_alpha()
-        self.img = pygame.transform.scale(self.img, (50, 100))
+        self.img = pygame.image.load(
+            'assets/images/spaceship/folder1/Example_ships/13B.png').convert_alpha()
+        self.img = pygame.transform.scale(self.img, (100, 50))
         self.image = pygame.transform.rotate(self.img, self.angle)  # Pygame takes angle as degrees, while numpy as radians
 
         # Setup rectangle and mask
@@ -81,7 +82,7 @@ class Player(pygame.sprite.Sprite):
         """
         if pygame.time.get_ticks() - self.last_shot > 60*2:
             self.last_shot = pygame.time.get_ticks()
-            return Bullet('player_bullet', self.screen, self.x, self.y, self.angle, self.v[:2])
+            return Bullet(self.name +'_bullet', self.screen, self.x, self.y, self.angle, self.v[:2])
         else:
             return
 
