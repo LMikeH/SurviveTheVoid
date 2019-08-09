@@ -1,0 +1,13 @@
+Sparrow:
+  height: 50
+  width: 25
+  dry mass: 50
+  hydrogen: 10
+  kerosene: 10
+  weapon A:
+  weapon B:
+  missle:
+  powerplant:
+  thruster:
+  afterburners:
+  armor:

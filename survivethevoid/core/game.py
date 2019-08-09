@@ -34,6 +34,8 @@ class Game(object):
 
         # Setup Screen
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        pygame.DOUBLEBUF
+        pygame.HWSURFACE
         self.background = pygame.Surface((pygame.display.Info().current_w, pygame.display.Info().current_h))
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))

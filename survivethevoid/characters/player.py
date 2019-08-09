@@ -42,6 +42,8 @@ class Player(pygame.sprite.Sprite):
         self.img = pygame.transform.scale(self.img, (100, 50))
         self.image = pygame.transform.rotate(self.img, self.angle)  # Pygame takes angle as degrees, while numpy as radians
 
+        self.load_bullets()
+
         # Setup rectangle and mask
         self.rect = self.image.get_rect()
         self.rect.center = (screen.get_width()/2, screen.get_height()/2)
@@ -51,6 +53,9 @@ class Player(pygame.sprite.Sprite):
 
         self.mask = pygame.mask.from_surface(self.image)
 
+    def load_bullets(self):
+        self.bullet_img = pygame.image.load('assets/images/bullet.png').convert_alpha()
+        # self.bullet_img = pygame.transform.scale(self.bullet_img, (10, 10))
 
     def rotate(self, d_ang):
         """
@@ -80,9 +85,9 @@ class Player(pygame.sprite.Sprite):
         Bullet object.
 
         """
-        if pygame.time.get_ticks() - self.last_shot > 60*2:
+        if pygame.time.get_ticks() - self.last_shot > 60*.3:
             self.last_shot = pygame.time.get_ticks()
-            return Bullet(self.name +'_bullet', self.screen, self.x, self.y, self.angle, self.v[:2])
+            return Bullet(self.name +'_bullet', self.bullet_img, self.screen, self.x, self.y, self.angle, self.v[:2])
         else:
             return
 
@@ -102,19 +107,19 @@ class Player(pygame.sprite.Sprite):
         self.a = np.array([0.0, 0.0])
         # Cartesian positions
         if key_state[pygame.K_a]:
-            self.a[0] = -.02
+            self.a[0] = -.05
         elif key_state[pygame.K_d]:
-            self.a[0] = .02
+            self.a[0] = .05
         if key_state[pygame.K_w]:
-            self.a[1] = .02
+            self.a[1] = .05
         elif key_state[pygame.K_s]:
-            self.a[1] = -.02
+            self.a[1] = -.05
 
         # Angles
         if key_state[pygame.K_q]:
-            self.omega += .02
+            self.omega += .05
         elif key_state[pygame.K_e]:
-            self.omega -= .02
+            self.omega -= .05
 
         if key_state[pygame.K_SPACE]:
             return self.shoot_bullet()
