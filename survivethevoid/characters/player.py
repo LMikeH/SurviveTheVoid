@@ -165,7 +165,7 @@ class Player(pygame.sprite.Sprite):
         """
         Handles Collision Event
         """
-        if 'player' not in collided_object.name:
+        if self.name not in collided_object.name:
             self.health -= collided_object.collision_dmg
             if self.health <= 0:
                 self.death()
