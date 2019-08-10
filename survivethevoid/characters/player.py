@@ -54,7 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
     def load_bullets(self):
-        self.bullet_img = pygame.image.load('assets/images/bullet.png').convert_alpha()
+        self.bullet_img = pygame.image.load('assets/images/tracers/30_mm_tracer.png').convert_alpha()
         # self.bullet_img = pygame.transform.scale(self.bullet_img, (10, 10))
 
     def rotate(self, d_ang):
@@ -85,9 +85,10 @@ class Player(pygame.sprite.Sprite):
         Bullet object.
 
         """
-        if pygame.time.get_ticks() - self.last_shot > 60*.3:
+        if pygame.time.get_ticks() - self.last_shot > 60*2:
             self.last_shot = pygame.time.get_ticks()
-            return Bullet(self.name +'_bullet', self.bullet_img, self.screen, self.x, self.y, self.angle, self.v[:2])
+            bullet_loc = (self.rect.height/2) * np.dot(R(self.angle), np.array([0, 1]))
+            return Bullet(self.name +'_bullet', self.bullet_img, self.screen, bullet_loc[0] + self.x, bullet_loc[1]+ self.y, self.angle, self.v[:2])
         else:
             return
 
@@ -125,7 +126,6 @@ class Player(pygame.sprite.Sprite):
             return self.shoot_bullet()
         else:
             return
-
 
     def update(self, key_state, projectiles):
         """

@@ -23,9 +23,9 @@ class Bullet(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.angle = angle
-        self.image = img
-        self.img = pygame.image.load('assets/images/bullet.png').convert_alpha()
-        self.img = pygame.transform.scale(self.img, (5, 10))
+        self.img = img
+        # self.img = pygame.image.load('assets/images/tracers/30_mm_tracer.png').convert_alpha()
+        self.img = pygame.transform.scale(self.img, (20, 20))
         self.image = pygame.transform.rotate(self.img,
                                              self.angle)  # Pygame takes angle as degrees, while numpy as radians
         self.mask = pygame.mask.from_surface(self.image)

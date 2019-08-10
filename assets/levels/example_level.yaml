@@ -1,14 +1,18 @@
 
 objects:
   player:
+    type: character
     location: [5000, 5000, 0]
     object:
   asteroid_1:
+    type: environment
     location: [4800, 4800, 0]
     object:
   asteroid_2:
+    type: environment
     location: [5200, 5200, 0]
     object:
   asteroid_3:
+    type: environment
     location: [3000, 6000, 0]
     object:
