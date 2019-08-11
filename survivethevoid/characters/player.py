@@ -87,7 +87,7 @@ class Player(pygame.sprite.Sprite):
         """
         if pygame.time.get_ticks() - self.last_shot > 60*2:
             self.last_shot = pygame.time.get_ticks()
-            bullet_loc = (self.rect.height/2) * np.dot(R(self.angle), np.array([0, 1]))
+            bullet_loc = (10+self.rect.height/2) * np.dot(R(self.angle), np.array([0, 1]))
             return Bullet(self.name +'_bullet', self.bullet_img, self.screen, bullet_loc[0] + self.x, bullet_loc[1]+ self.y, self.angle, self.v[:2])
         else:
             return

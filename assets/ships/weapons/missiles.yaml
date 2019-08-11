@@ -1,0 +1,10 @@
+
+SRM-1A:
+  type: small
+  ammo_type: SRM_1A
+  rounds: 4
+  damage: 50
+  thrust: 5
+  weight: 2
+  fuel: 10
+

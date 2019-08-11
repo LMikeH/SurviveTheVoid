@@ -3,7 +3,6 @@ ship:
   name: Sparrow
   image: 'assets/images/spaceship/folder1/Example_ships/13B.png'
   weapon A: 30_mm_cannon
-  weapon B: flak_cannon
   missile: SRM-1A
   powerplant: Thermalhauss_500
   thrusters: Hydrodine_200

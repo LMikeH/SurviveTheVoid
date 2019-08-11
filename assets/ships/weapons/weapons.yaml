@@ -1,0 +1,11 @@
+
+30_mm_cannon:
+  type: ballistic
+  ammo_type: 30_mm_round
+  rounds: 1000
+  damage: 10
+  speed: 15
+  weigth: 1 # tons
+  blast_radius: 0
+  range:
+
